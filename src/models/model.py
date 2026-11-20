@@ -26,7 +26,7 @@ def get_model(cfg, **kwargs):
   # model = models[model_name.lower()]()
   resume = cfg.MODEL.RESUME_PATH
   if os.path.exists(resume):
-    model = torch.load(resume).module
+    model = torch.load(resume, weights_only=False).module
     print('**********Load model from:',resume)
     model.inter_layer=False
   return model
@@ -37,7 +37,7 @@ def load_pretrain_model(model, resume):
   assert os.path.isfile(resume), "Error: check the checkpoint path...."
   logging.warning("load pretrain model from {}".format(resume))
   
-  state_dict_pretrain = torch.load(resume)    
+  state_dict_pretrain = torch.load(resume, weights_only=False)    
   
   is_best = True
   if 'best' not in resume:

@@ -1,22 +1,20 @@
-# basic settings
+# full rice dataset configuration for training & benchmark
 
+NAME: 'grain'
+COMMENT: 'grain rice full dataset benchmark'
+AUTHOR: 'fatih'
 
-NAME: 'grain'  # config name
-COMMENT: 'grain project,. 3 channels...'
-AUTHOR: 'grain'
-
-CHECKPOINTS: "./runs/checkpoints/"        # path to save checkpoints
-LOG_PATH: "./runs/logs/"                  # path to save log files
-SAVE_ONNX_PATH: "./runs/onnx/"    #path to save onnx file
-
+CHECKPOINTS: "./runs/checkpoints/"
+LOG_PATH: "./runs/logs/"
+SAVE_ONNX_PATH: "./runs/onnx/"
 
 DATASET:
-  PATH: './FinalData/rice'
-  NAME: 'rice_3channel_224x224_0522'
+  PATH: '/home/master_core_ti/skripsi-grain/datasets/rice'
+  NAME: 'rice_full'
+  WORKERS: 4
 
 RESUME:
   FLAG: False
-  #PATH: 
 
 AUGMENT:
   MIXUP_RATIO: 0
@@ -25,26 +23,21 @@ AUGMENT:
   RandContra_limit: 0.15
   RandContra_ratio: 0.3
 
-
 MODEL:
-  NAME: 'resnet50'
-
+  NAME: 'seresnet50'
 
 OPTIM:
+  NAME: 'adam'
   INIT_LR: 1.2e-3
   LR_SCHEDULER: 'step'
-  LOSS: 'ce'
-
+  LOSS: 'CrossEntropy'
 
 TRAIN:
-  BATCH: 128
+  BATCH: 64
   EPOCHS: 50
   START_EPOCH: 0
   SIZE: (224,224)
 
-
 TEST:  
-  BATCH: 128
+  BATCH: 64
   SIZE: (224,224)
-
-

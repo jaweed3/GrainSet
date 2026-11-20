@@ -43,8 +43,8 @@ def main(args):
                                                batch_size=cfg.TRAIN.BATCH, shuffle=True,
                                                num_workers=cfg.DATASET.WORKERS, pin_memory=True, drop_last=True)
     val_loader = torch.utils.data.DataLoader(val_dataset,
-                                             batch_size=cfg.TEST.BATCH, shuffle=True,
-                                             num_workers=cfg.DATASET.WORKERS, pin_memory=True, drop_last=True)
+                                             batch_size=cfg.TEST.BATCH, shuffle=False,
+                                             num_workers=cfg.DATASET.WORKERS, pin_memory=True, drop_last=False)
     #############  model config  #############
     model = get_model(cfg, num_classes=cfg.DATASET.CLASS_NUMS)
 

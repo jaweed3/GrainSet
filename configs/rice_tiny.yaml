@@ -1,0 +1,43 @@
+# rice tiny smoke test configuration
+
+NAME: 'grain'
+COMMENT: 'grain rice tiny smoke test'
+AUTHOR: 'fatih'
+
+CHECKPOINTS: "./runs/checkpoints/"
+LOG_PATH: "./runs/logs/"
+SAVE_ONNX_PATH: "./runs/onnx/"
+
+DATASET:
+  PATH: '/home/master_core_ti/skripsi-grain/datasets/rice_tiny'
+  NAME: 'rice_tiny_test'
+  WORKERS: 4
+
+RESUME:
+  FLAG: False
+
+AUGMENT:
+  MIXUP_RATIO: 0
+  RandBright_limit: 0.15 
+  RandBright_ratio: 0.3 
+  RandContra_limit: 0.15
+  RandContra_ratio: 0.3
+
+MODEL:
+  NAME: 'seresnet50'
+
+OPTIM:
+  NAME: 'adam'
+  INIT_LR: 1e-4
+  LR_SCHEDULER: 'step'
+  LOSS: 'CrossEntropy'
+
+TRAIN:
+  BATCH: 32
+  EPOCHS: 2
+  START_EPOCH: 0
+  SIZE: (224,224)
+
+TEST:  
+  BATCH: 32
+  SIZE: (224,224)

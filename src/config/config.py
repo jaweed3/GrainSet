@@ -15,6 +15,9 @@ class BaseConfig(dict):
         super(BaseConfig, self).__init__(*args, **kwargs)
         self.immutable = False
 
+    def __call__(self, *args, **kwargs):
+        return self
+
     def __setattr__(self, key, value, create_if_not_exist=True):
         if key in ["immutable"]:
             self.__dict__[key] = value

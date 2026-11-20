@@ -1,0 +1,33 @@
+Model Checkpoint: /home/master_core_ti/skripsi-grain/GrainSet/runs/checkpoints/seresnet50_rice_full_baseline/best_model.pth
+Dataset Path    : /home/master_core_ti/skripsi-grain/datasets/rice
+Split           : test
+
+Overall Accuracy   : 96.42%
+Macro F1-Score     : 94.48%
+Weighted F1-Score  : 96.59%
+
+                            precision    recall  f1-score   support
+
+            0_NOR (Normal)     0.9995    0.9590    0.9788      2000
+1_F&S (Fusarium/Shriveled)     0.9735    0.9800    0.9767       150
+           2_SD (Sprouted)     0.6981    0.9867    0.8177       150
+              3_MY (Moldy)     0.9267    0.9267    0.9267       150
+  4_AP (Attacked by Pests)     0.9193    0.9867    0.9518       150
+             5_BN (Broken)     0.9795    0.9533    0.9662       150
+             6_UN (Unripe)     0.9241    0.9733    0.9481       150
+         7_IM (Impurities)     0.9852    1.0000    0.9926       200
+
+                  accuracy                         0.9642      3100
+                 macro avg     0.9257    0.9707    0.9448      3100
+              weighted avg     0.9707    0.9642    0.9659      3100
+
+
+Confusion Matrix:
+[[1918    0   56    7   11    1    7    0]
+ [   0  147    2    0    0    0    1    0]
+ [   0    2  148    0    0    0    0    0]
+ [   0    1    5  139    0    1    4    0]
+ [   0    1    0    0  148    1    0    0]
+ [   0    0    0    3    1  143    0    3]
+ [   1    0    1    1    1    0  146    0]
+ [   0    0    0    0    0    0    0  200]]

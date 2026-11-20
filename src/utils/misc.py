@@ -129,7 +129,7 @@ def confusion_matrix(preds_list, lables_list, CLASS_NUMS):
      :return:返回统计结果
     """
 
-    confusion =  np.zeros((CLASS_NUMS, CLASS_NUMS), dtype=np.int) # 统计结果
+    confusion =  np.zeros((CLASS_NUMS, CLASS_NUMS), dtype=int) # 统计结果
 
     for i in range(len(lables_list)):
         if lables_list[i] == preds_list[i]:
