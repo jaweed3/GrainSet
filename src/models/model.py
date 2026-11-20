@@ -9,20 +9,31 @@ from timm.models.resnet import resnet50, resnet152
 
 __all__ = ['get_model','load_pretrain_model']
 
+import timm
+
 models = {
     'seresnet50':seresnet50,
     'vgg19':vgg19,
     'inception_v3':inception_v3,
     'vit_base':vit_base_patch16_224,
     'resnet50':resnet50,
-    'resnet152':resnet152
+    'resnet152':resnet152,
+    'mobilenetv4_small': lambda **kw: timm.create_model('mobilenetv4_conv_small', **kw),
+    'mobilenetv3_large': lambda **kw: timm.create_model('mobilenetv3_large_100', **kw),
+    'efficientnet_b0': lambda **kw: timm.create_model('efficientnet_b0', **kw),
+    'edgenext_x_small': lambda **kw: timm.create_model('edgenext_x_small', **kw)
 }
 
 
 def get_model(cfg, **kwargs):
   model_name = cfg.MODEL.NAME.lower()
-  assert model_name in models, "model: {} is not supported, please check model name...".format(cfg.MODEL.NAME)
-  model = models[model_name.lower()](**kwargs)
+  if model_name in models:
+      model = models[model_name](**kwargs)
+  elif timm.is_model(model_name):
+      pretrained = getattr(cfg.MODEL, 'PRETRAINED', True)
+      model = timm.create_model(model_name, pretrained=pretrained, **kwargs)
+  else:
+      raise ValueError("model: {} is not supported, please check model name...".format(cfg.MODEL.NAME))
   # model = models[model_name.lower()]()
   resume = cfg.MODEL.RESUME_PATH
   if os.path.exists(resume):

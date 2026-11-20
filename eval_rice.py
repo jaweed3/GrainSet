@@ -39,12 +39,18 @@ CLASS_NAMES = [
     "7_IM (Impurities)"
 ]
 
-def load_checkpoint_model(model_path, device):
+def load_checkpoint_model(model_path, device, model_name=None):
     raw = torch.load(model_path, map_location=device, weights_only=False)
     if isinstance(raw, dict) and 'model_state_dict' in raw:
         state_dict = raw['model_state_dict']
         print(f"Loaded checkpoint dict (Epoch {raw.get('epoch')}, Val Macro F1: {raw.get('val_macro_f1'):.2f}%, Val Acc: {raw.get('val_acc'):.2f}%)")
-        model = seresnet50(num_classes=8)
+        if not model_name and 'config' in raw and hasattr(raw['config'], 'MODEL'):
+            model_name = raw['config'].MODEL.NAME
+        if not model_name:
+            model_name = 'seresnet50'
+        
+        cfg.MODEL.NAME = model_name
+        model = get_model(cfg, num_classes=8, pretrained=False)
         model.load_state_dict(state_dict)
     elif hasattr(raw, 'module'):
         model = raw.module
@@ -54,7 +60,7 @@ def load_checkpoint_model(model_path, device):
     model.eval()
     return model
 
-def evaluate(model_path, data_path, split="test", batch_size=64):
+def evaluate(model_path, data_path, split="test", batch_size=64, model_name=None):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     print(f"\n=======================================================")
     print(f"Loading checkpoint: {model_path}")
@@ -62,7 +68,7 @@ def evaluate(model_path, data_path, split="test", batch_size=64):
     print(f"Device: {device} ({torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU'})")
     print(f"=======================================================")
 
-    model = load_checkpoint_model(model_path, device)
+    model = load_checkpoint_model(model_path, device, model_name=model_name)
 
     test_imgs = get_imglists(data_path, split=split)
     test_dataset = GrainDataset(test_imgs, mode='test', transforms=val_transform)
